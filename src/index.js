@@ -39,6 +39,8 @@ export default class VueRouter {
     this.beforeHooks = []
     this.resolveHooks = []
     this.afterHooks = []
+
+    // 返回Matcher { match: Fcuntion, addRoutes: Function }
     this.matcher = createMatcher(options.routes || [], this)
 
     let mode = options.mode || 'hash'
@@ -51,6 +53,7 @@ export default class VueRouter {
     }
     this.mode = mode
 
+    // 根据不用的mode 创建相应的history实例
     switch (mode) {
       case 'history':
         this.history = new HTML5History(this, options.base)
@@ -68,6 +71,7 @@ export default class VueRouter {
     }
   }
 
+  // this.matcher.match的简写
   match (
     raw: RawLocation,
     current?: Route,
@@ -76,10 +80,13 @@ export default class VueRouter {
     return this.matcher.match(raw, current, redirectedFrom)
   }
 
+  // 返回当前的路由
   get currentRoute (): ?Route {
     return this.history && this.history.current
   }
 
+  // app 是vue实例
+  // 在 install.js中的beforeCreate钩子会调用这个方法
   init (app: any /* Vue component instance */) {
     process.env.NODE_ENV !== 'production' && assert(
       install.installed,

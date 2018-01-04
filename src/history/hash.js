@@ -28,6 +28,11 @@ export class HashHistory extends History {
       setupScroll()
     }
 
+    // 这里和html5mode的有所不一样, html5的是在构造函数中添加listener
+    // 这个是为了修复vuejs/vue-router#725这个 bug 而这样做的，
+    // 简要来说就是说如果在 beforeEnter 这样的钩子函数中是异步的话，beforeEnter 钩子就会被触发两次
+    // 原因是因为在初始化的时候如果此时的 hash 值不是以 / 开头的话就会补上 #/，这个过程会触发 hashchange 事件
+    // 所以会再走一次生命周期钩子，也就意味着会再次调用 beforeEnter 钩子函数。
     window.addEventListener(supportsPushState ? 'popstate' : 'hashchange', () => {
       const current = this.current
       if (!ensureSlash()) {

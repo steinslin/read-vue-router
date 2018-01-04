@@ -135,13 +135,16 @@ function addRouteRecord (
 
   if (!pathMap[record.path]) {
     pathList.push(record.path)
+    // 保存pathMap
     pathMap[record.path] = record
   }
 
   if (name) {
     if (!nameMap[name]) {
+      // 保存nameMap
       nameMap[name] = record
     } else if (process.env.NODE_ENV !== 'production' && !matchAs) {
+      // name必须唯一
       warn(
         false,
         `Duplicate named routes definition: ` +
@@ -164,6 +167,7 @@ function compileRouteRegex (path: string, pathToRegexpOptions: PathToRegexpOptio
 }
 
 function normalizePath (path: string, parent?: RouteRecord, strict?: boolean): string {
+  // 以 '/' 结尾的会被会被删除 '/' '/bar/' -> '/bar' '/' -> ''
   if (!strict) path = path.replace(/\/$/, '')
   if (path[0] === '/') return path
   if (parent == null) return path
