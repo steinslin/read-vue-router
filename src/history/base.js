@@ -62,8 +62,10 @@ export class History {
   }
 
   transitionTo (location: RawLocation, onComplete?: Function, onAbort?: Function) {
+    // 获取当前的route对象
     const route = this.router.match(location, this.current)
     this.confirmTransition(route, () => {
+      // 更新路由 current
       this.updateRoute(route)
       onComplete && onComplete(route)
       this.ensureURL()
