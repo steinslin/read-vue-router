@@ -118,6 +118,7 @@ export default class VueRouter {
       )
     }
 
+    // 当route变化时触发回调
     history.listen(route => {
       this.apps.forEach((app) => {
         app._route = route

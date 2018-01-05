@@ -43,6 +43,7 @@ export class History {
   }
 
   listen (cb: Function) {
+    // route变化时触发的回调
     this.cb = cb
   }
 
