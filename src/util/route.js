@@ -35,6 +35,7 @@ export function createRoute (
   return Object.freeze(route)
 }
 
+// 对象clone
 function clone (value) {
   if (Array.isArray(value)) {
     return value.map(clone)
