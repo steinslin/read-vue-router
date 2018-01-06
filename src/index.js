@@ -126,7 +126,10 @@ export default class VueRouter {
     })
   }
 
+  // 各种钩子和a'pi
   beforeEach (fn: Function): Function {
+    // 返回的函数用于只触发一次的钩子
+    // 回调函数会删除执行的函数 spilce
     return registerHook(this.beforeHooks, fn)
   }
 
@@ -166,6 +169,7 @@ export default class VueRouter {
     this.go(1)
   }
 
+  // 获取路由下的所有组件
   getMatchedComponents (to?: RawLocation | Route): Array<any> {
     const route: any = to
       ? to.matched
@@ -175,6 +179,7 @@ export default class VueRouter {
     if (!route) {
       return []
     }
+    // 返回组件数组
     return [].concat.apply([], route.matched.map(m => {
       return Object.keys(m.components).map(key => {
         return m.components[key]
@@ -222,6 +227,7 @@ export default class VueRouter {
   }
 }
 
+// 注册钩子 回调函数用于只触发一次的钩子
 function registerHook (list: Array<any>, fn: Function): Function {
   list.push(fn)
   return () => {

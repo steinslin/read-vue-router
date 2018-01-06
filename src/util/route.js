@@ -26,6 +26,7 @@ export function createRoute (
     query,
     params: location.params || {},
     fullPath: getFullPath(location, stringifyQuery),
+    // RouteRecord数组
     matched: record ? formatMatch(record) : []
   }
   if (redirectedFrom) {
@@ -53,6 +54,7 @@ export const START = createRoute(null, {
   path: '/'
 })
 
+// 返回RouteRecord数组 新的record靠前
 function formatMatch (record: ?RouteRecord): Array<RouteRecord> {
   const res = []
   while (record) {
@@ -70,6 +72,7 @@ function getFullPath (
   return (path || '/') + stringify(query) + hash
 }
 
+// 同个路由
 export function isSameRoute (a: Route, b: ?Route): boolean {
   if (b === START) {
     return a === b
@@ -93,6 +96,7 @@ export function isSameRoute (a: Route, b: ?Route): boolean {
   }
 }
 
+// key value相同的对象
 function isObjectEqual (a = {}, b = {}): boolean {
   // handle null value #1566
   if (!a || !b) return a === b
@@ -112,16 +116,33 @@ function isObjectEqual (a = {}, b = {}): boolean {
   })
 }
 
+// 是否在某个路由下 子路由 /bar/123和/bar 表示为包含
 export function isIncludedRoute (current: Route, target: Route): boolean {
-  return (
+  console.log(current, 'current')
+  console.log(target, 'target')
+  console.log((
     current.path.replace(trailingSlashRE, '/').indexOf(
       target.path.replace(trailingSlashRE, '/')
     ) === 0 &&
     (!target.hash || current.hash === target.hash) &&
     queryIncludes(current.query, target.query)
+  ))
+  // debugger
+  return (
+    // 去掉末尾的 '/' trailingSlashRE -> /\/?$/
+    // /bar/123和/bar 表示为包含
+    current.path.replace(trailingSlashRE, '/').indexOf(
+      target.path.replace(trailingSlashRE, '/')
+    ) === 0 &&
+    // 且必须hash相同
+    (!target.hash || current.hash === target.hash) &&
+    // 且包含target的所有key
+    // {key1: xx, key2: xx} -> {key1: xxx}
+    queryIncludes(current.query, target.query)
   )
 }
 
+// 包含target的所有key
 function queryIncludes (current: Dictionary<string>, target: Dictionary<string>): boolean {
   for (const key in target) {
     if (!(key in current)) {
