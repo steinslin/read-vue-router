@@ -14,6 +14,7 @@ export class HashHistory extends History {
     if (fallback && checkFallback(this.base)) {
       return
     }
+    // 确保以'/'开头
     ensureSlash()
   }
 
@@ -35,6 +36,7 @@ export class HashHistory extends History {
     // 所以会再走一次生命周期钩子，也就意味着会再次调用 beforeEnter 钩子函数。
     window.addEventListener(supportsPushState ? 'popstate' : 'hashchange', () => {
       const current = this.current
+      // 确保以'/'开头
       if (!ensureSlash()) {
         return
       }
