@@ -69,6 +69,7 @@ export class History {
       // 更新路由 current
       this.updateRoute(route)
       onComplete && onComplete(route)
+      // 确保以'/'开头
       this.ensureURL()
 
       // fire ready cbs once
@@ -105,6 +106,7 @@ export class History {
       // in the case the route map has been dynamically appended to
       route.matched.length === current.matched.length
     ) {
+      // 如果是相同路由 直接返回
       this.ensureURL()
       return abort()
     }
@@ -115,21 +117,27 @@ export class History {
       activated
     } = resolveQueue(this.current.matched, route.matched)
 
+    // 整个切换周期的队列
     const queue: Array<?NavigationGuard> = [].concat(
       // in-component leave guards
+      // leave 钩子
       extractLeaveGuards(deactivated),
       // global before hooks
+      // before 钩子
       this.router.beforeHooks,
       // in-component update hooks
       extractUpdateHooks(updated),
       // in-config enter guards
+      // 将要更新的路由的 beforeEnter 钩子
       activated.map(m => m.beforeEnter),
       // async components
+      // 异步组件
       resolveAsyncComponents(activated)
     )
 
     this.pending = route
     const iterator = (hook: NavigationGuard, next) => {
+      // 确保期间还是当前路由
       if (this.pending !== route) {
         return abort()
       }
@@ -163,6 +171,7 @@ export class History {
       }
     }
 
+    // 执行队列
     runQueue(queue, iterator, () => {
       const postEnterCbs = []
       const isValid = () => this.current === route
@@ -170,6 +179,8 @@ export class History {
       // extracting in-component enter guards
       const enterGuards = extractEnterGuards(activated, postEnterCbs, isValid)
       const queue = enterGuards.concat(this.router.resolveHooks)
+      // 在上次的队列执行完成后再执行组件内的钩子
+      // 因为需要等异步组件以及是OK的情况下才能执行
       runQueue(queue, iterator, () => {
         if (this.pending !== route) {
           return abort()
@@ -185,10 +196,13 @@ export class History {
     })
   }
 
+  // 更新当前 route 对象
   updateRoute (route: Route) {
     const prev = this.current
     this.current = route
+    // 执行history.listen的回调
     this.cb && this.cb(route)
+    // 执行 after hooks 回调
     this.router.afterHooks.forEach(hook => {
       hook && hook(route, prev)
     })
