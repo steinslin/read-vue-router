@@ -50,14 +50,14 @@ function addRouteRecord (
   matchAs?: string
 ) {
   const { path, name } = route
-  if (process.env.NODE_ENV !== 'production') {
-    assert(path != null, `"path" is required in a route configuration.`)
-    assert(
-      typeof route.component !== 'string',
-      `route config "component" for path: ${String(path || name)} cannot be a ` +
-      `string id. Use an actual component instead.`
-    )
-  }
+  // if (process.env.NODE_ENV !== 'production') {
+  //   assert(path != null, `"path" is required in a route configuration.`)
+  //   assert(
+  //     typeof route.component !== 'string',
+  //     `route config "component" for path: ${String(path || name)} cannot be a ` +
+  //     `string id. Use an actual component instead.`
+  //   )
+  // }
 
   const pathToRegexpOptions: PathToRegexpOptions = route.pathToRegexpOptions || {}
   const normalizedPath = normalizePath(
@@ -92,18 +92,18 @@ function addRouteRecord (
     // Warn if route is named, does not redirect and has a default child route.
     // If users navigate to this route by name, the default child will
     // not be rendered (GH Issue #629)
-    if (process.env.NODE_ENV !== 'production') {
-      if (route.name && !route.redirect && route.children.some(child => /^\/?$/.test(child.path))) {
-        warn(
-          false,
-          `Named Route '${route.name}' has a default child route. ` +
-          `When navigating to this named route (:to="{name: '${route.name}'"), ` +
-          `the default child route will not be rendered. Remove the name from ` +
-          `this route and use the name of the default child route for named ` +
-          `links instead.`
-        )
-      }
-    }
+    // if (process.env.NODE_ENV !== 'production') {
+    //   if (route.name && !route.redirect && route.children.some(child => /^\/?$/.test(child.path))) {
+    //     warn(
+    //       false,
+    //       `Named Route '${route.name}' has a default child route. ` +
+    //       `When navigating to this named route (:to="{name: '${route.name}'"), ` +
+    //       `the default child route will not be rendered. Remove the name from ` +
+    //       `this route and use the name of the default child route for named ` +
+    //       `links instead.`
+    //     )
+    //   }
+    // }
     route.children.forEach(child => {
       const childMatchAs = matchAs
         ? cleanPath(`${matchAs}/${child.path}`)
@@ -145,24 +145,24 @@ function addRouteRecord (
       nameMap[name] = record
     } else if (process.env.NODE_ENV !== 'production' && !matchAs) {
       // name必须唯一
-      warn(
-        false,
-        `Duplicate named routes definition: ` +
-        `{ name: "${name}", path: "${record.path}" }`
-      )
+      // warn(
+      //   false,
+      //   `Duplicate named routes definition: ` +
+      //   `{ name: "${name}", path: "${record.path}" }`
+      // )
     }
   }
 }
 
 function compileRouteRegex (path: string, pathToRegexpOptions: PathToRegexpOptions): RouteRegExp {
   const regex = Regexp(path, [], pathToRegexpOptions)
-  if (process.env.NODE_ENV !== 'production') {
-    const keys: any = Object.create(null)
-    regex.keys.forEach(key => {
-      warn(!keys[key.name], `Duplicate param keys in route with path: "${path}"`)
-      keys[key.name] = true
-    })
-  }
+  // if (process.env.NODE_ENV !== 'production') {
+  //   const keys: any = Object.create(null)
+  //   regex.keys.forEach(key => {
+  //     warn(!keys[key.name], `Duplicate param keys in route with path: "${path}"`)
+  //     keys[key.name] = true
+  //   })
+  // }
   return regex
 }
 

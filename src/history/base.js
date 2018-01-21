@@ -95,8 +95,8 @@ export class History {
         if (this.errorCbs.length) {
           this.errorCbs.forEach(cb => { cb(err) })
         } else {
-          warn(false, 'uncaught error during route navigation:')
-          console.error(err)
+          // warn(false, 'uncaught error during route navigation:')
+          // console.error(err)
         }
       }
       onAbort && onAbort(err)

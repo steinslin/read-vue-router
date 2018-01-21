@@ -88,11 +88,11 @@ export default class VueRouter {
   // app 是vue实例
   // 在 install.js中的beforeCreate钩子会调用这个方法
   init (app: any /* Vue component instance */) {
-    process.env.NODE_ENV !== 'production' && assert(
-      install.installed,
-      `not installed. Make sure to call \`Vue.use(VueRouter)\` ` +
-      `before creating root instance.`
-    )
+    // process.env.NODE_ENV !== 'production' && assert(
+    //   install.installed,
+    //   `not installed. Make sure to call \`Vue.use(VueRouter)\` ` +
+    //   `before creating root instance.`
+    // )
 
     this.apps.push(app)
 
