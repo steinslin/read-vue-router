@@ -19,7 +19,10 @@ export class HTML5History extends History {
     }
 
     const initLocation = getLocation(this.base)
+
+    // 当点击浏览器的前进或后退按钮会触发这里
     window.addEventListener('popstate', e => {
+      debugger
       const current = this.current
 
       // Avoiding first `popstate` event dispatched in some browsers but first

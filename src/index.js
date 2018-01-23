@@ -94,6 +94,7 @@ export default class VueRouter {
     //   `before creating root instance.`
     // )
 
+    // app 是vue实例
     this.apps.push(app)
 
     // main app already initialized.

@@ -12,6 +12,7 @@ export default {
   render (_, { props, children, parent, data }) {
     data.routerView = true
 
+    debugger
     // directly use parent context's createElement() function
     // so that components rendered by router-view can resolve named slots
     const h = parent.$createElement
@@ -21,8 +22,10 @@ export default {
 
     // determine current view depth, also check to see if the tree
     // has been toggled inactive but kept-alive.
+    // 组件深度
     let depth = 0
     let inactive = false
+    // _routerRoot是实例 在install.js parent._routerRoot === parent 是最外面的一层
     while (parent && parent._routerRoot !== parent) {
       if (parent.$vnode && parent.$vnode.data.routerView) {
         depth++

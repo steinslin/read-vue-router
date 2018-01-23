@@ -25,6 +25,7 @@ export function install (Vue) {
       // new Vue时给router
       // 根组件会有router
       if (isDef(this.$options.router)) {
+        debugger
         // _routerRoot保存当前实例
         this._routerRoot = this
         this._router = this.$options.router

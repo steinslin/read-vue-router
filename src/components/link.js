@@ -29,34 +29,35 @@ export default {
     }
   },
   render (h: Function) {
+    debugger
     const router = this.$router
     const current = this.$route
     const { location, route, href } = router.resolve(this.to, current, this.append)
 
     const classes = {}
-    const globalActiveClass = router.options.linkActiveClass
-    const globalExactActiveClass = router.options.linkExactActiveClass
+    // const globalActiveClass = router.options.linkActiveClass
+    // const globalExactActiveClass = router.options.linkExactActiveClass
     // Support global empty active class
-    const activeClassFallback = globalActiveClass == null
-            ? 'router-link-active'
-            : globalActiveClass
-    const exactActiveClassFallback = globalExactActiveClass == null
-            ? 'router-link-exact-active'
-            : globalExactActiveClass
-    const activeClass = this.activeClass == null
-            ? activeClassFallback
-            : this.activeClass
-    const exactActiveClass = this.exactActiveClass == null
-            ? exactActiveClassFallback
-            : this.exactActiveClass
-    const compareTarget = location.path
-      ? createRoute(null, location, null, router)
-      : route
+    // const activeClassFallback = globalActiveClass == null
+    //         ? 'router-link-active'
+    //         : globalActiveClass
+    // const exactActiveClassFallback = globalExactActiveClass == null
+    //         ? 'router-link-exact-active'
+    //         : globalExactActiveClass
+    // const activeClass = this.activeClass == null
+    //         ? activeClassFallback
+    //         : this.activeClass
+    // const exactActiveClass = this.exactActiveClass == null
+    //         ? exactActiveClassFallback
+    // //         : this.exactActiveClass
+    // const compareTarget = location.path
+    //   ? createRoute(null, location, null, router)
+    //   : route
 
-    classes[exactActiveClass] = isSameRoute(current, compareTarget)
-    classes[activeClass] = this.exact
-      ? classes[exactActiveClass]
-      : isIncludedRoute(current, compareTarget)
+    // classes[exactActiveClass] = isSameRoute(current, compareTarget)
+    // classes[activeClass] = this.exact
+      // ? classes[exactActiveClass]
+      // : isIncludedRoute(current, compareTarget)
 
     const handler = e => {
       if (guardEvent(e)) {
